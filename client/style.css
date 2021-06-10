@@ -1,4 +1,28 @@
-.die {
+.die, .die {
     display: inline-block;
     padding: 1em 1em;
+}
+
+.dieani1 {
+    animation: 2s roll;
+}
+
+.dieani2 {
+    animation: 2s roll2;
+}
+
+@keyframes roll {
+    from {
+        transform: scale(3);
+    }
+    to {
+    }
+}
+
+@keyframes roll2 {
+    from {
+        transform: scale(3);
+    }
+    to {
+    }
 }

@@ -7,6 +7,7 @@ use rand_chacha::ChaCha12Rng;
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Dice {
     pub rolls: Vec<u8>,
+    pub last_rolled: Vec<bool>,
     rng: ChaCha12Rng
 }
 
@@ -14,6 +15,7 @@ impl Default for Dice {
     fn default() -> Self {
         Self {
             rolls: vec![],
+            last_rolled: vec![],
             rng: ChaCha12Rng::from_entropy(),
         }
     }
@@ -31,7 +33,8 @@ impl StateMachine for Dice {
         match t {
             Roll(x) => {
                 let d4 = Uniform::from(1..=4);
-                self.rolls = (0..x).map(|_| d4.sample(&mut self.rng)).collect()
+                self.rolls = (0..x).map(|_| d4.sample(&mut self.rng)).collect();
+                self.last_rolled = vec![true; x as usize];
             }
         }
     }
