@@ -1,6 +1,10 @@
-.die, .die {
+.die {
     display: inline-block;
     padding: 1em 1em;
+}
+
+.die[data-selected="true"] {
+    background-color: gray;
 }
 
 .dieani1 {
