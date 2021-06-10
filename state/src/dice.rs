@@ -14,7 +14,7 @@ impl Default for Dice {
     fn default() -> Self {
         Self {
             rolls: vec![],
-            rng: ChaCha12Rng::seed_from_u64(0),
+            rng: ChaCha12Rng::from_entropy(),
         }
     }
 }
