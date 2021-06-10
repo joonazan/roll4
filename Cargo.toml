@@ -1,0 +1,9 @@
+[package]
+name = "roll4"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+state = {path = "./state"}
+aper-actix = {git = "https://github.com/aper-dev/aper.git"}
+aper = {git = "https://github.com/aper-dev/aper.git"}

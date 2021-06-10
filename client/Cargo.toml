@@ -1,0 +1,11 @@
+[package]
+name = "client"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+state = {path = "../state"}
+aper = {git = "https://github.com/aper-dev/aper.git"}
+aper-yew = {git = "https://github.com/aper-dev/aper.git"}
+yew = "0.17.4"
+serde = { version = "1.0.124", features = ["derive"] }
