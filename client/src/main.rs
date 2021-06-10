@@ -14,12 +14,15 @@ impl View for DiceView {
     type State = DiceProgram;
 
     fn view(&self, state: &Self::State, context: &ViewContext<Self::Callback>) -> Html {
+        let roll_buttons = (1..=6).map(move |n| html!{
+            <button onclick=context.callback.reform(move |_| Some(DiceTransition::Roll(n)))>{n}</button>
+        });
         return html! {<>
             <div>
                 {for state.0.rolls.iter().map(|x| html!{<span class="die">{x}</span>})}
             </div>
             <div>
-                <button onclick=context.callback.reform(|_| Some(DiceTransition::Roll(3)))>{"Roll"}</button>
+                {"Roll: "}{for roll_buttons}
             </div>
         </>}
     }
