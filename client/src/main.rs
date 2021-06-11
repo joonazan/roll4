@@ -119,7 +119,7 @@ impl Component for DiceComponent {
         let cannot_reroll = self.dice.iter().all(|d| d.selected == false);
 
         html! { <>
-            <div>
+            <div class="diebox">
             {for self.dice.iter().enumerate().map(|(i, d)|
                 html!{<span data-selected=d.selected
                       class=if d.class {"die dieani1"} else {"die dieani2"}

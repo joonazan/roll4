@@ -1,10 +1,37 @@
 .die {
     display: inline-block;
-    padding: 1em 1em;
+    width: 1.2em;
+    height: 1.2em;
+    text-align: center;
+    padding: 0.5em;
+    margin: 0.5em;
+    border: 2px solid black;
+    border-radius: 20%;
+    user-select: none;
+    position: relative;
 }
 
-.die[data-selected="true"] {
-    background-color: gray;
+.die[data-selected="true"]::before {
+    content: "";
+    width: 140%;
+    height: 140%;
+    position: absolute;
+    left: -20%;
+    top: -20%;
+    border-radius: 10%;
+    background: linear-gradient(135deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 42%,
+                                rgba(255,32,0,1) 42%, rgba(255,32,0,0.8) 58%,
+                                rgba(0,0,0,0) 58%, rgba(0,0,0,0) 100%);
+    animation: 0.6s strikethrough;
+}
+
+@keyframes strikethrough {
+    from {
+        clip-path: polygon(-50% 50%, 50% 150%, 50% 150%, -50% 50%);
+    }
+    to {
+        clip-path: polygon(-50% 50%, 50% 150%, 150% 50%, 50% -50%);
+    }
 }
 
 .dieani1 {
@@ -17,7 +44,7 @@
 
 @keyframes roll {
     from {
-        transform: scale(3);
+        transform: scale(1.5);
     }
     to {
     }
@@ -25,8 +52,15 @@
 
 @keyframes roll2 {
     from {
-        transform: scale(3);
+        transform: scale(1.5);
     }
     to {
     }
+}
+
+.diebox {
+    display: flex;
+    justify-content: center;
+    margin: 1em 0;
+    width: 20em;
 }
