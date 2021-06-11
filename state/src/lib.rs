@@ -1,1 +1,56 @@
+pub mod character;
 pub mod dice;
+
+use aper::data_structures::List;
+use aper::{StateMachine, Transition};
+use character::Character;
+use dice::Dice;
+use serde::{Deserialize, Serialize};
+use uuid::Uuid;
+
+#[derive(Default, Debug, Clone, Serialize, Deserialize)]
+pub struct Game {
+    pub dice: Dice,
+    pub characters: List<Character>,
+}
+
+#[derive(Transition, Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub enum GameTransition {
+    Roll(u8),
+    Reroll(Vec<bool>, Uuid),
+    AddCharacter,
+    CharacterTransition(Uuid, <character::Character as StateMachine>::Transition),
+}
+use GameTransition::*;
+
+impl StateMachine for Game {
+    type Transition = GameTransition;
+
+    fn apply(&mut self, transition: Self::Transition) {
+        match transition {
+            Roll(x) => self.dice.apply(dice::DiceTransition::Roll(x)),
+            Reroll(mask, character) => {
+                let dice = &mut self.dice;
+                self.characters
+                    .apply(self.characters.map_item(character, |c| {
+                        c.map_influence_points(|i| {
+                            let old = *i.value();
+                            if old > 0 {
+                                dice.apply(dice::DiceTransition::Reroll(mask));
+                                i.replace(old - 1)
+                            } else {
+                                i.replace(old)
+                            }
+                        })
+                    }));
+            }
+            AddCharacter => {
+                let (_, op) = self.characters.append(Character::default());
+                self.characters.apply(op);
+            }
+            CharacterTransition(character, t) => self
+                .characters
+                .apply(self.characters.map_item(character, |_| t)),
+        }
+    }
+}

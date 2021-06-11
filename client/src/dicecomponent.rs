@@ -1,6 +1,6 @@
-use yew::prelude::*;
 use std::iter::repeat;
 use std::num::Wrapping;
+use yew::prelude::*;
 
 pub struct DiceComponent {
     last_update: Wrapping<u8>,

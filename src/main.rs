@@ -1,7 +1,7 @@
 use aper::StateMachineContainerProgram;
 use aper_actix::ServerBuilder;
-use state::dice::Dice;
+use state::Game;
 
 fn main() -> std::io::Result<()> {
-    ServerBuilder::new(StateMachineContainerProgram(Dice::default())).serve()
+    ServerBuilder::new(StateMachineContainerProgram(Game::default())).serve()
 }

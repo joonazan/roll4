@@ -1,34 +1,50 @@
 #![recursion_limit = "256"]
 mod dicecomponent;
-use dicecomponent::*;
-use aper::{StateMachineContainerProgram};
+use aper::data_structures::ListItem;
+use aper::StateMachineContainerProgram;
 use aper_yew::{ClientBuilder, View, ViewContext};
-use state::dice::{Dice, DiceTransition};
+use dicecomponent::*;
+use state::{Game, GameTransition};
 use yew::prelude::*;
 
 #[derive(Clone)]
-struct DiceView;
+struct GameView;
 
-type DiceProgram = StateMachineContainerProgram<Dice>;
-
-impl View for DiceView {
-    type Callback = DiceTransition;
-    type State = DiceProgram;
+impl View for GameView {
+    type Callback = GameTransition;
+    type State = StateMachineContainerProgram<Game>;
 
     fn view(&self, state: &Self::State, context: &ViewContext<Self::Callback>) -> Html {
         let roll_buttons = (1..=6).map(move |n| html!{
-            <button onclick=context.callback.reform(move |_| Some(DiceTransition::Roll(n)))>{n}</button>
+            <button onclick=context.callback.reform(move |_| Some(GameTransition::Roll(n)))>{n}</button>
         });
+        let dice = &state.0.dice;
+
+        // TODO allow selecting your character
+        // requires making a Component to hold extra state
+        let me = state.0.characters.iter().next().map(|x| x.id);
+        let m2 = me.clone();
+        let reroll = if let Some(me) = me {
+            context
+                .callback
+                .clone()
+                .reform(move |x: Option<Vec<bool>>| x.map(move |x| GameTransition::Reroll(x, me)))
+        } else {
+            Callback::noop()
+        };
         html! {<>
             <div>
                 {"Roll: "}{for roll_buttons}
             </div>
-            <DiceComponent roll_id=state.0.roll_id rolls=state.0.rolls.clone() last_rolled=state.0.last_rolled.clone()
-               reroll_cb=context.callback.clone().reform(|x: Option<Vec<bool>>| x.map(DiceTransition::Reroll)) />
+            <DiceComponent roll_id=dice.roll_id rolls=dice.rolls.clone() last_rolled=dice.last_rolled.clone()
+             reroll_cb=reroll />
+
+            <button onclick=context.callback.reform(|_| Some(GameTransition::AddCharacter))>{"Add Character"}</button>
+            {for state.0.characters.iter().map(|ListItem{value, ..}| format!("{:?}", value))}
         </>}
     }
 }
 
 fn main() {
-    ClientBuilder::new(DiceView).mount_to_body();
+    ClientBuilder::new(GameView).mount_to_body();
 }

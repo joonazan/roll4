@@ -5,7 +5,7 @@ version = 3
 [[package]]
 name = "aper"
 version = "0.0.1"
-source = "git+https://github.com/aper-dev/aper.git#7f35008ac67fd83dcb61b26865b72a4405310d8d"
+source = "git+https://github.com/aper-dev/aper.git#3e7b716547cbe849101298c10af67000e637cfbe"
 dependencies = [
  "aper_derive",
  "chrono",
@@ -16,7 +16,7 @@ dependencies = [
 [[package]]
 name = "aper_derive"
 version = "0.1.0"
-source = "git+https://github.com/aper-dev/aper.git#7f35008ac67fd83dcb61b26865b72a4405310d8d"
+source = "git+https://github.com/aper-dev/aper.git#3e7b716547cbe849101298c10af67000e637cfbe"
 dependencies = [
  "inflections",
  "proc-macro2",
@@ -217,6 +217,7 @@ dependencies = [
  "rand",
  "rand_chacha",
  "serde",
+ "uuid",
 ]
 
 [[package]]
