@@ -35,6 +35,7 @@ fn main() {
 struct DiceComponent {
     last_update: Timestamp,
     dice: Vec<Die>,
+    selected: Vec<bool>,
     link: ComponentLink<Self>,
     cb: Callback<Option<DiceTransition>>,
 }
@@ -42,7 +43,6 @@ struct DiceComponent {
 struct Die {
     roll: u8,
     class: bool,
-    selected: bool,
 }
 
 #[derive(Properties, Clone)]
@@ -63,17 +63,19 @@ impl Component for DiceComponent {
     type Properties = DiceProps;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        let dice: Vec<Die> = props
+            .rolls
+            .into_iter()
+            .map(|r| Die {
+                roll: r,
+                class: false,
+            })
+            .collect();
+        let selected = vec![false; dice.len()];
         Self {
             last_update: props.timestamp,
-            dice: props
-                .rolls
-                .into_iter()
-                .map(|r| Die {
-                    roll: r,
-                    class: false,
-                    selected: false,
-                })
-                .collect(),
+            dice,
+            selected,
             link,
             cb: props.cb,
         }
@@ -93,13 +95,9 @@ impl Component for DiceComponent {
                         .map(|(&c, rolled)| if rolled { !c } else { c })
                         .chain(repeat(false)),
                 )
-                .map(|(r, c)| Die {
-                    roll: r,
-                    class: c,
-                    selected: false,
-                })
+                .map(|(r, c)| Die { roll: r, class: c })
                 .collect();
-
+            self.selected = vec![false; self.dice.len()];
             true
         } else {
             false
@@ -109,19 +107,19 @@ impl Component for DiceComponent {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             Select(n) => {
-                self.dice[n].selected = !self.dice[n].selected;
+                self.selected[n] = !self.selected[n];
                 true
             }
         }
     }
 
     fn view(&self) -> Html {
-        let cannot_reroll = self.dice.iter().all(|d| d.selected == false);
+        let cannot_reroll = self.selected.iter().all(|&s| s == false);
 
         html! { <>
             <div class="diebox">
             {for self.dice.iter().enumerate().map(|(i, d)|
-                html!{<span data-selected=d.selected
+                html!{<span data-selected=self.selected[i]
                       class=if d.class {"die dieani1"} else {"die dieani2"}
                       onclick=self.link.callback(move |_| Select(i))>
                       {d.roll}
@@ -133,7 +131,7 @@ impl Component for DiceComponent {
                  let mask: Option<Vec<bool>> = if cannot_reroll {
                      None
                  }else {
-                     Some(self.dice.iter().map(|d| d.selected).collect())
+                     Some(self.selected.clone())
                  };
                  move |_| mask.clone().map(DiceTransition::Reroll)
              })>
