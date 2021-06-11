@@ -3,11 +3,15 @@ use rand::distributions::{Distribution, Uniform};
 use rand::SeedableRng;
 use rand_chacha::ChaCha12Rng;
 use serde::{Deserialize, Serialize};
+use std::num::Wrapping;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Dice {
     pub rolls: Vec<u8>,
     pub last_rolled: Vec<bool>,
+    /// used to show that dice have been rolled even if the result is
+    /// the same as on the last roll.
+    pub roll_id: Wrapping<u8>,
     rng: ChaCha12Rng,
 }
 
@@ -16,6 +20,7 @@ impl Default for Dice {
         Self {
             rolls: vec![],
             last_rolled: vec![],
+            roll_id: Wrapping(0),
             rng: ChaCha12Rng::from_entropy(),
         }
     }
@@ -36,6 +41,7 @@ impl StateMachine for Dice {
             Roll(x) => {
                 self.rolls = (0..x).map(|_| d4.sample(&mut self.rng)).collect();
                 self.last_rolled = vec![true; x as usize];
+                self.roll_id += Wrapping(1);
             }
             Reroll(mask) => {
                 let rng = &mut self.rng;
@@ -46,6 +52,7 @@ impl StateMachine for Dice {
                     .map(|(r, m)| if *m { d4.sample(rng) } else { *r })
                     .collect();
                 self.last_rolled = mask;
+                self.roll_id += Wrapping(1);
             }
         }
     }

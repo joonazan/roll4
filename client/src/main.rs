@@ -23,7 +23,7 @@ impl View for DiceView {
             <div>
                 {"Roll: "}{for roll_buttons}
             </div>
-            <DiceComponent timestamp=context.time rolls=state.0.rolls.clone() last_rolled=state.0.last_rolled.clone()
+            <DiceComponent roll_id=state.0.roll_id rolls=state.0.rolls.clone() last_rolled=state.0.last_rolled.clone()
                reroll_cb=context.callback.clone().reform(|x: Option<Vec<bool>>| x.map(DiceTransition::Reroll)) />
         </>}
     }

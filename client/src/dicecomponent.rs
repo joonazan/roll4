@@ -1,9 +1,9 @@
 use yew::prelude::*;
 use std::iter::repeat;
-use aper::Timestamp;
+use std::num::Wrapping;
 
 pub struct DiceComponent {
-    last_update: Timestamp,
+    last_update: Wrapping<u8>,
     dice: Vec<Die>,
     selected: Vec<bool>,
     link: ComponentLink<Self>,
@@ -17,7 +17,7 @@ struct Die {
 
 #[derive(Properties, Clone)]
 pub struct DiceProps {
-    pub timestamp: Timestamp,
+    pub roll_id: Wrapping<u8>,
     pub rolls: Vec<u8>,
     pub last_rolled: Vec<bool>,
     pub reroll_cb: Callback<Option<Vec<bool>>>,
@@ -43,7 +43,7 @@ impl Component for DiceComponent {
             .collect();
         let selected = vec![false; dice.len()];
         Self {
-            last_update: props.timestamp,
+            last_update: props.roll_id,
             dice,
             selected,
             link,
@@ -52,8 +52,8 @@ impl Component for DiceComponent {
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.last_update != props.timestamp {
-            self.last_update = props.timestamp;
+        if self.last_update != props.roll_id {
+            self.last_update = props.roll_id;
             self.dice = props
                 .rolls
                 .into_iter()
