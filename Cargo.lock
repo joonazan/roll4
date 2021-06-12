@@ -353,7 +353,7 @@ dependencies = [
 [[package]]
 name = "aper"
 version = "0.0.1"
-source = "git+https://github.com/aper-dev/aper.git#3e7b716547cbe849101298c10af67000e637cfbe"
+source = "git+https://github.com/aper-dev/aper.git#87ed87462e104f8554e3cf3a50106b3a3ec57fb3"
 dependencies = [
  "aper_derive",
  "chrono",
@@ -364,7 +364,7 @@ dependencies = [
 [[package]]
 name = "aper-actix"
 version = "0.1.0"
-source = "git+https://github.com/aper-dev/aper.git#3e7b716547cbe849101298c10af67000e637cfbe"
+source = "git+https://github.com/aper-dev/aper.git#87ed87462e104f8554e3cf3a50106b3a3ec57fb3"
 dependencies = [
  "actix",
  "actix-files",
@@ -380,7 +380,7 @@ dependencies = [
 [[package]]
 name = "aper_derive"
 version = "0.1.0"
-source = "git+https://github.com/aper-dev/aper.git#3e7b716547cbe849101298c10af67000e637cfbe"
+source = "git+https://github.com/aper-dev/aper.git#87ed87462e104f8554e3cf3a50106b3a3ec57fb3"
 dependencies = [
  "inflections",
  "proc-macro2",
@@ -1018,9 +1018,9 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
 name = "libc"
-version = "0.2.96"
+version = "0.2.97"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5600b4e6efc5421841a2138a6b082e07fe12f9aaa12783d50e5d13325b26b4fc"
+checksum = "12b8adadd720df158f4d70dfe7ccc6adb0472d7c55ca83445f6a5ab3e36f8fb6"
 
 [[package]]
 name = "linked-hash-map"
