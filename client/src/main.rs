@@ -4,7 +4,7 @@ use aper::data_structures::ListItem;
 use aper::StateMachineContainerProgram;
 use aper_yew::{ClientBuilder, View, ViewContext};
 use dicecomponent::*;
-use state::{Game, GameTransition};
+use state::{character::Character, Game, GameTransition};
 use yew::prelude::*;
 
 #[derive(Clone)]
@@ -23,15 +23,21 @@ impl View for GameView {
         // TODO allow selecting your character
         // requires making a Component to hold extra state
         let me = state.0.characters.iter().next().map(|x| x.id);
-        let m2 = me.clone();
         let reroll = if let Some(me) = me {
-            context
-                .callback
-                .clone()
-                .reform(move |x: Option<Vec<bool>>| x.map(move |x| GameTransition::Reroll(x, me)))
+            Some(
+                context
+                    .callback
+                    .clone()
+                    .reform(move |x: Option<Vec<bool>>| {
+                        x.map(move |x| GameTransition::Reroll(x, me))
+                    }),
+            )
         } else {
-            Callback::noop()
+            None
         };
+
+        let add_char =
+            GameTransition::CharacterTransition(state.0.characters.append(Character::default()).1);
         html! {<>
             <div>
                 {"Roll: "}{for roll_buttons}
@@ -39,7 +45,7 @@ impl View for GameView {
             <DiceComponent roll_id=dice.roll_id rolls=dice.rolls.clone() last_rolled=dice.last_rolled.clone()
              reroll_cb=reroll />
 
-            <button onclick=context.callback.reform(|_| Some(GameTransition::AddCharacter))>{"Add Character"}</button>
+            <button onclick=context.callback.reform(move |_| Some(add_char.clone()))>{"Add Character"}</button>
             {for state.0.characters.iter().map(|ListItem{value, ..}| format!("{:?}", value))}
         </>}
     }

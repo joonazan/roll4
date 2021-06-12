@@ -18,8 +18,7 @@ pub struct Game {
 pub enum GameTransition {
     Roll(u8),
     Reroll(Vec<bool>, Uuid),
-    AddCharacter,
-    CharacterTransition(Uuid, <character::Character as StateMachine>::Transition),
+    CharacterTransition(<List<character::Character> as StateMachine>::Transition),
 }
 use GameTransition::*;
 
@@ -44,13 +43,7 @@ impl StateMachine for Game {
                         })
                     }));
             }
-            AddCharacter => {
-                let (_, op) = self.characters.append(Character::default());
-                self.characters.apply(op);
-            }
-            CharacterTransition(character, t) => self
-                .characters
-                .apply(self.characters.map_item(character, |_| t)),
+            CharacterTransition(t) => self.characters.apply(t),
         }
     }
 }

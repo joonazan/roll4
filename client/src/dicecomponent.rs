@@ -7,7 +7,7 @@ pub struct DiceComponent {
     dice: Vec<Die>,
     selected: Vec<bool>,
     link: ComponentLink<Self>,
-    reroll_cb: Callback<Option<Vec<bool>>>,
+    reroll_cb: Option<Callback<Option<Vec<bool>>>>,
 }
 
 struct Die {
@@ -20,7 +20,7 @@ pub struct DiceProps {
     pub roll_id: Wrapping<u8>,
     pub rolls: Vec<u8>,
     pub last_rolled: Vec<bool>,
-    pub reroll_cb: Callback<Option<Vec<bool>>>,
+    pub reroll_cb: Option<Callback<Option<Vec<bool>>>>,
 }
 
 pub enum DiceMsg {
@@ -52,7 +52,7 @@ impl Component for DiceComponent {
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        if self.last_update != props.roll_id {
+        let a = if self.last_update != props.roll_id {
             self.last_update = props.roll_id;
             self.dice = props
                 .rolls
@@ -71,7 +71,16 @@ impl Component for DiceComponent {
             true
         } else {
             false
-        }
+        };
+
+        let b = if self.reroll_cb != props.reroll_cb {
+            self.reroll_cb = props.reroll_cb;
+            true
+        } else {
+            false
+        };
+
+        a || b
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
@@ -84,7 +93,13 @@ impl Component for DiceComponent {
     }
 
     fn view(&self) -> Html {
-        let cannot_reroll = self.selected.iter().all(|&s| s == false);
+        let cannot_reroll = self.reroll_cb == None || self.selected.iter().all(|&s| s == false);
+        let cb = if cannot_reroll {
+            Callback::noop()
+        } else {
+            let mask = self.selected.clone();
+            self.reroll_cb.clone().unwrap().reform(move |_| Some(mask.clone()))
+        };
 
         html! { <>
             <div class="diebox">
@@ -96,17 +111,7 @@ impl Component for DiceComponent {
                 </span>}
             )}
             </div>
-            <button disabled=cannot_reroll
-             onclick=self.reroll_cb.reform({
-                 let mask: Option<Vec<bool>> = if cannot_reroll {
-                     None
-                 }else {
-                     Some(self.selected.clone())
-                 };
-                 move |_| mask.clone()
-             })>
-                {"Reroll"}
-            </button>
+            <button disabled=cannot_reroll onclick=cb>{"Reroll"}</button>
         </>}
     }
 }
