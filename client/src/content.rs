@@ -79,7 +79,11 @@ impl Component for Content {
         let characters = self.state.characters.iter().map(|ListItem{value, id, ..}| {
             html! { <div>
                 {format!("{:?}", value)}
-                <button onclick=self.link.callback(move |_| SelectCharacter(id))>{"This is me!"}</button>
+                {if self.character == None {
+                     html!{<button onclick=self.link.callback(move |_| SelectCharacter(id))>{"This is me!"}</button>}
+                } else {
+                     html!{}}
+                }
             </div> }
         });
 
