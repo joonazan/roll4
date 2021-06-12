@@ -5,7 +5,7 @@ use rand_chacha::ChaCha12Rng;
 use serde::{Deserialize, Serialize};
 use std::num::Wrapping;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct Dice {
     pub rolls: Vec<u8>,
     pub last_rolled: Vec<bool>,

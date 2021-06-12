@@ -98,7 +98,10 @@ impl Component for DiceComponent {
             Callback::noop()
         } else {
             let mask = self.selected.clone();
-            self.reroll_cb.clone().unwrap().reform(move |_| Some(mask.clone()))
+            self.reroll_cb
+                .clone()
+                .unwrap()
+                .reform(move |_| Some(mask.clone()))
         };
 
         html! { <>

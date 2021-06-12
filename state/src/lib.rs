@@ -3,12 +3,12 @@ pub mod dice;
 
 use aper::data_structures::List;
 use aper::{StateMachine, Transition};
-use character::Character;
+pub use character::Character;
 use dice::Dice;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-#[derive(Default, Debug, Clone, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Game {
     pub dice: Dice,
     pub characters: List<Character>,
@@ -18,7 +18,7 @@ pub struct Game {
 pub enum GameTransition {
     Roll(u8),
     Reroll(Vec<bool>, Uuid),
-    CharacterTransition(<List<character::Character> as StateMachine>::Transition),
+    CharacterTransition(<List<Character> as StateMachine>::Transition),
 }
 use GameTransition::*;
 
