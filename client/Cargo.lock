@@ -124,6 +124,7 @@ dependencies = [
  "aper-yew",
  "serde",
  "state",
+ "uuid",
  "yew",
 ]
 

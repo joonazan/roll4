@@ -2,15 +2,20 @@ use crate::dicecomponent::DiceComponent;
 use aper::data_structures::ListItem;
 use state::Character;
 use state::{Game, GameTransition};
+use uuid::Uuid;
 use yew::prelude::*;
 
 pub struct Content {
     state: Game,
+    character: Option<Uuid>,
     link: ComponentLink<Self>,
     cb: Callback<Option<GameTransition>>,
 }
 
-pub enum ContentMsg {}
+pub enum ContentMsg {
+    SelectCharacter(Uuid),
+}
+use ContentMsg::*;
 
 #[derive(Properties, Clone)]
 pub struct ContentProps {
@@ -26,13 +31,17 @@ impl Component for Content {
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self {
             state: props.state,
+            character: None,
             link,
             cb: props.cb,
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        false
+        match msg {
+            SelectCharacter(id) => self.character = Some(id),
+        }
+        true
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
@@ -61,15 +70,18 @@ impl Component for Content {
 
         // TODO allow selecting your character
         // requires making a Component to hold extra state
-        let me = self.state.characters.iter().next().map(|x| x.id);
-        let reroll =
-            if let Some(me) = me {
-                Some(self.cb.clone().reform(move |x: Option<Vec<bool>>| {
-                    x.map(move |x| GameTransition::Reroll(x, me))
-                }))
-            } else {
-                None
-            };
+        let reroll = self.character.map(|me| {
+            self.cb
+                .clone()
+                .reform(move |x: Option<Vec<bool>>| x.map(move |x| GameTransition::Reroll(x, me)))
+        });
+
+        let characters = self.state.characters.iter().map(|ListItem{value, id, ..}| {
+            html! { <div>
+                {format!("{:?}", value)}
+                <button onclick=self.link.callback(move |_| SelectCharacter(id))>{"This is me!"}</button>
+            </div> }
+        });
 
         let add_char = GameTransition::CharacterTransition(
             self.state.characters.append(Character::default()).1,
@@ -81,8 +93,8 @@ impl Component for Content {
             <DiceComponent roll_id=dice.roll_id rolls=dice.rolls.clone() last_rolled=dice.last_rolled.clone()
              reroll_cb=reroll />
 
+            {for characters}
             <button onclick=self.cb.reform(move |_| Some(add_char.clone()))>{"Add Character"}</button>
-            {for self.state.characters.iter().map(|ListItem{value, ..}| format!("{:?}", value))}
         </>}
     }
 }
