@@ -59,8 +59,16 @@ impl Component for CharacterSheet {
         html! { <div class="charactersheet">
         <object ref=self.svg_doc.clone() onload=self.link.callback(|_| SvgLoaded)
                 type="image/svg+xml" data="client/sheet.svg" id="svg"></object>
-        <input type="text" class="name" value=character.name.value()/>
-        <input type="text" class="habitat" value=character.habitat.value()/>
+        <input type="text" class="name" value=character.name.value()
+                 oninput=self.props.cb.reform({
+                     let character = character.clone();
+                     move |i: InputData| character.map_name(|n| n.replace(i.value))
+                 })/>
+        <input type="text" class="habitat" value=character.habitat.value()
+                 oninput=self.props.cb.reform({
+                     let character = character.clone();
+                     move |i: InputData| character.map_habitat(|n| n.replace(i.value))
+                 })/>
         <input type="text" class="note_1"/>
         <input type="text" class="note_2"/>
         <input type="text" class="note_3"/>
