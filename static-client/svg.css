@@ -16,6 +16,6 @@
 #memory:hover > *:hover ~ *, #influence:hover > *:hover ~ * {
     opacity: 0 !important;
 }
-#influence:hover > [data-on="true"]:hover {
+#influence:hover > [data-on="true"]:hover, #memory:hover > [data-on="true"]:hover {
     opacity: 0 !important;
 }
