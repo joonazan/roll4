@@ -1,4 +1,5 @@
-#![recursion_limit = "256"]
+#![recursion_limit = "1024"]
+mod charactersheet;
 mod content;
 mod dicecomponent;
 use aper::StateMachineContainerProgram;

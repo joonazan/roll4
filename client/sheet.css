@@ -1,0 +1,338 @@
+.charactersheet {
+	position: relative;
+}
+
+input[type=text] {
+	background: none;
+	border: none;
+	font-family: serif;
+	font-size: 13px;
+	color: #1e5653ff;
+}
+
+.name {
+	position: absolute;
+	left: 162px;
+	top: 396px;
+	transform: rotate(-19deg);
+	width: 120px;
+}
+
+
+.habitat {
+	position: absolute;
+	left: 627px;
+	top: 424px;
+	transform: rotate(19deg);
+	width: 120px;
+}
+
+.note_1 {
+	position: absolute;
+	left: 80px;
+	top: 623px;
+	width: 288px;
+}
+
+.note_2 {
+	position: absolute;
+	left: 80px;
+	top: 651px;
+	width: 288px;
+}
+
+.note_3 {
+	position: absolute;
+	left: 80px;
+	top: 679px;
+	width: 288px;
+}
+
+.note_4 {
+	position: absolute;
+	left: 80px;
+	top: 709px;
+	width: 288px;
+}
+
+.note_5 {
+	position: absolute;
+	left: 448px;
+	top: 623px;
+	width: 288px;
+}
+
+.note_6 {
+	position: absolute;
+	left: 448px;
+	top: 651px;
+	width: 288px;
+}
+
+.note_7 {
+	position: absolute;
+	left: 448px;
+	top: 679px;
+	width: 288px;
+}
+
+.note_8 {
+	position: absolute;
+	left: 448px;
+	top: 709px;
+	width: 288px;
+}
+
+.effect_value_1 {
+	position: absolute;
+	left: 85px;
+	top: 765px;
+	width: 15px;
+}
+
+.effect_value_2 {
+	position: absolute;
+	left: 85px;
+	top: 810px;
+	width: 15px;
+}
+
+.effect_value_3 {
+	position: absolute;
+	left: 85px;
+	top: 858px;
+	width: 15px;
+}
+
+.effect_value_4 {
+	position: absolute;
+	left: 85px;
+	top: 902px;
+	width: 15px;
+}
+
+.effect_value_5 {
+	position: absolute;
+	left: 85px;
+	top: 950px;
+	width: 15px;
+}
+
+.effect_value_6 {
+	position: absolute;
+	left: 85px;
+	top: 995px;
+	width: 15px;
+}
+
+
+.effect_value_7 {
+	position: absolute;
+	left: 326px;
+	top: 765px;
+	width: 15px;
+}
+
+.effect_value_8 {
+	position: absolute;
+	left: 326px;
+	top: 810px;
+	width: 15px;
+}
+
+.effect_value_9 {
+	position: absolute;
+	left: 326px;
+	top: 858px;
+	width: 15px;
+}
+
+.effect_value_10 {
+	position: absolute;
+	left: 326px;
+	top: 902px;
+	width: 15px;
+}
+
+.effect_value_11 {
+	position: absolute;
+	left: 326px;
+	top: 950px;
+	width: 15px;
+}
+
+.effect_value_12 {
+	position: absolute;
+	left: 326px;
+	top: 995px;
+	width: 15px;
+}
+
+.effect_value_13 {
+	position: absolute;
+	left: 567px;
+	top: 765px;
+	width: 15px;
+}
+
+.effect_value_14 {
+	position: absolute;
+	left: 567px;
+	top: 810px;
+	width: 15px;
+}
+
+.effect_value_15 {
+	position: absolute;
+	left: 567px;
+	top: 858px;
+	width: 15px;
+}
+
+.effect_value_16 {
+	position: absolute;
+	left: 567px;
+	top: 902px;
+	width: 15px;
+}
+
+.effect_value_17 {
+	position: absolute;
+	left: 567px;
+	top: 950px;
+	width: 15px;
+}
+
+.effect_value_18 {
+	position: absolute;
+	left: 567px;
+	top: 995px;
+	width: 15px;
+}
+
+.effect_name_1 {
+	position: absolute;
+	left: 135px;
+	top: 765px;
+	width: 143px;
+}
+
+.effect_name_2 {
+	position: absolute;
+	left: 135px;
+	top: 810px;
+	width: 143px;
+}
+
+.effect_name_3 {
+	position: absolute;
+	left: 135px;
+	top: 858px;
+	width: 143px;
+}
+
+.effect_name_4 {
+	position: absolute;
+	left: 135px;
+	top: 902px;
+	width: 143px;
+}
+
+.effect_name_5 {
+	position: absolute;
+	left: 135px;
+	top: 950px;
+	width: 143px;
+}
+
+.effect_name_6 {
+	position: absolute;
+	left: 135px;
+	top: 995px;
+	width: 143px;
+}
+
+
+.effect_name_7 {
+	position: absolute;
+	left: 377px;
+	top: 765px;
+	width: 143px;
+}
+
+.effect_name_8 {
+	position: absolute;
+	left: 377px;
+	top: 810px;
+	width: 143px;
+}
+
+.effect_name_9 {
+	position: absolute;
+	left: 377px;
+	top: 858px;
+	width: 143px;
+}
+
+.effect_name_10 {
+	position: absolute;
+	left: 377px;
+	top: 902px;
+	width: 143px;
+}
+
+.effect_name_11 {
+	position: absolute;
+	left: 377px;
+	top: 950px;
+	width: 143px;
+}
+
+.effect_name_12 {
+	position: absolute;
+	left: 377px;
+	top: 995px;
+	width: 143px;
+}
+
+.effect_name_13 {
+	position: absolute;
+	left: 618px;
+	top: 765px;
+	width: 143px;
+}
+
+.effect_name_14 {
+	position: absolute;
+	left: 618px;
+	top: 810px;
+	width: 143px;
+}
+
+.effect_name_15 {
+	position: absolute;
+	left: 618px;
+	top: 858px;
+	width: 143px;
+}
+
+.effect_name_16 {
+	position: absolute;
+	left: 618px;
+	top: 902px;
+	width: 143px;
+}
+
+.effect_name_17 {
+	position: absolute;
+	left: 618px;
+	top: 950px;
+	width: 143px;
+}
+
+.effect_name_18 {
+	position: absolute;
+	left: 618px;
+	top: 995px;
+	width: 143px;
+}

@@ -1,5 +1,6 @@
+use crate::charactersheet::CharacterSheet;
 use crate::dicecomponent::DiceComponent;
-use aper::data_structures::ListItem;
+use aper::data_structures::{ListItem, ListOperation};
 use state::Character;
 use state::{Game, GameTransition};
 use uuid::Uuid;
@@ -77,8 +78,9 @@ impl Component for Content {
         });
 
         let characters = self.state.characters.iter().map(|ListItem{value, id, ..}| {
+            let cb = self.cb.reform(move |t| Some(GameTransition::CharacterTransition(ListOperation::Apply(id, t))));
             html! { <div>
-                {format!("{:?}", value)}
+                <CharacterSheet character=value cb=cb />
                 {if self.character == None {
                      html!{<button onclick=self.link.callback(move |_| SelectCharacter(id))>{"This is me!"}</button>}
                 } else {
@@ -98,7 +100,11 @@ impl Component for Content {
              reroll_cb=reroll />
 
             {for characters}
-            <button onclick=self.cb.reform(move |_| Some(add_char.clone()))>{"Add Character"}</button>
+            {if self.character == None {
+                html!{<button onclick=self.cb.reform(move |_| Some(add_char.clone()))>{"Add Character"}</button>}
+            } else {
+                html!{}
+            }}
         </>}
     }
 }

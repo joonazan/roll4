@@ -125,6 +125,8 @@ dependencies = [
  "serde",
  "state",
  "uuid",
+ "wasm-bindgen",
+ "web-sys",
  "yew",
 ]
 

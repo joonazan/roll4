@@ -10,3 +10,15 @@ aper-yew = {git = "https://github.com/aper-dev/aper.git"}
 yew = "0.17.4"
 serde = { version = "1.0.124", features = ["derive"] }
 uuid = "*"
+web-sys = { version = "*", features = [
+    'Document',
+    'Element',
+    'HtmlObjectElement',
+    'SvgElement',
+    'CssStyleDeclaration'
+]}
+wasm-bindgen = "*"
+
+[profile.release]
+lto = "yes"
+panic = "abort"
