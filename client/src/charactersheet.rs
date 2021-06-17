@@ -36,7 +36,10 @@ impl Component for CharacterSheet {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            SvgLoaded => self.update_svg(),
+            SvgLoaded => {
+                self.init_svg();
+                self.update_svg();
+            }
         }
         false
     }
@@ -107,6 +110,22 @@ impl Component for CharacterSheet {
 }
 
 impl CharacterSheet {
+    fn init_svg(&self) {
+        let doc = self
+            .svg_doc
+            .cast::<HtmlObjectElement>()
+            .unwrap()
+            .content_document()
+            .unwrap();
+
+        // Inject stylesheet
+        let style = doc
+            .create_element_ns(Some("http://www.w3.org/2000/svg"), "style")
+            .unwrap();
+        style.set_text_content(Some("@import url(svg.css)"));
+        doc.first_child().unwrap().append_child(&style).unwrap();
+    }
+
     fn update_svg(&self) {
         if let Some(doc) = self
             .svg_doc
@@ -116,8 +135,7 @@ impl CharacterSheet {
         {
             let set_highlight = |el: Element, v| {
                 el.unchecked_into::<SvgElement>()
-                    .style()
-                    .set_property("visibility", if v { "visible" } else { "hidden" })
+                    .set_attribute("data-on", if v { "true" } else { "false" })
                     .unwrap();
             };
 
@@ -139,10 +157,7 @@ impl CharacterSheet {
             }
 
             let set_mp = |i, v| {
-                set_highlight(
-                    doc.get_element_by_id(&format!("memory_{}", i)).unwrap(),
-                    v,
-                );
+                set_highlight(doc.get_element_by_id(&format!("memory_{}", i)).unwrap(), v);
             };
             let mp = *character.memory_points.value();
             for i in 1..=mp {
@@ -153,19 +168,28 @@ impl CharacterSheet {
             }
 
             for i in -5..=5 {
-                set_highlight(doc.get_element_by_id(&format!("gravity_{}", i)).unwrap(), false);
+                set_highlight(
+                    doc.get_element_by_id(&format!("gravity_{}", i)).unwrap(),
+                    false,
+                );
             }
 
             let body_descriptions = ["wounded", "beaten", "ok"];
             let body = *character.body.value();
             for (i, desc) in body_descriptions.iter().enumerate() {
-                set_highlight(doc.get_element_by_id(&format!("body_{}", desc)).unwrap(), i+1 == body as usize);
+                set_highlight(
+                    doc.get_element_by_id(&format!("body_{}", desc)).unwrap(),
+                    i + 1 == body as usize,
+                );
             }
 
             let mind_descriptions = ["shaken", "stressed", "ok"];
             let mind = *character.mind.value();
             for (i, desc) in mind_descriptions.iter().enumerate() {
-                set_highlight(doc.get_element_by_id(&format!("mind_{}", desc)).unwrap(), i+1 == mind as usize);
+                set_highlight(
+                    doc.get_element_by_id(&format!("mind_{}", desc)).unwrap(),
+                    i + 1 == mind as usize,
+                );
             }
         }
     }

@@ -1,0 +1,21 @@
+#body_ok:hover {
+    opacity: 1 !important;
+}
+
+[data-on="true"] {
+    opacity: 0.7 !important;
+}
+
+[data-on="false"] {
+    opacity: 0 !important;
+}
+
+#memory:hover > [data-on="false"], #influence:hover > [data-on="false"] {
+    opacity: 1 !important;
+}
+#memory:hover > *:hover ~ *, #influence:hover > *:hover ~ * {
+    opacity: 0 !important;
+}
+#influence:hover > [data-on="true"]:hover {
+    opacity: 0 !important;
+}
