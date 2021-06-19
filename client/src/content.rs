@@ -1,5 +1,6 @@
 use crate::charactersheet::CharacterSheet;
 use crate::dicecomponent::DiceComponent;
+use crate::save::SaveButton;
 use aper::data_structures::{ListItem, ListOperation};
 use state::Character;
 use state::{Game, GameTransition};
@@ -93,6 +94,8 @@ impl Component for Content {
             self.state.characters.append(Character::default()).1,
         );
         html! {<>
+            <SaveButton state=self.state.characters.clone()/>
+
             <div>
                 {"Roll: "}{for roll_buttons}
             </div>

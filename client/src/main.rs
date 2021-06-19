@@ -2,6 +2,7 @@
 mod charactersheet;
 mod content;
 mod dicecomponent;
+mod save;
 use aper::StateMachineContainerProgram;
 use aper_yew::{ClientBuilder, View, ViewContext};
 use content::Content;

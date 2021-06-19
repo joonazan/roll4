@@ -15,9 +15,13 @@ web-sys = { version = "*", features = [
     'Element',
     'HtmlObjectElement',
     'SvgElement',
-    'CssStyleDeclaration'
+    'CssStyleDeclaration',
+    'Url',
+    'Blob'
 ]}
 wasm-bindgen = "*"
+js-sys = "*"
+serde_json = "*"
 
 [profile.release]
 lto = "yes"
