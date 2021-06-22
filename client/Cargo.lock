@@ -122,6 +122,7 @@ version = "0.1.0"
 dependencies = [
  "aper",
  "aper-yew",
+ "gloo-file",
  "js-sys",
  "serde",
  "serde_json",

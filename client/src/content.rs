@@ -94,7 +94,7 @@ impl Component for Content {
             self.state.characters.append(Character::default()).1,
         );
         html! {<>
-            <SaveButton state=self.state.characters.clone()/>
+            <SaveButton characters=self.state.characters.clone() load=self.cb.reform(|x| Some(GameTransition::Load(x))) />
 
             <div>
                 {"Roll: "}{for roll_buttons}

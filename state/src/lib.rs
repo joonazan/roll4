@@ -19,6 +19,7 @@ pub enum GameTransition {
     Roll(u8),
     Reroll(Vec<bool>, Uuid),
     CharacterTransition(<List<Character> as StateMachine>::Transition),
+    Load(List<Character>),
 }
 use GameTransition::*;
 
@@ -44,6 +45,7 @@ impl StateMachine for Game {
                     }));
             }
             CharacterTransition(t) => self.characters.apply(t),
+            Load(x) => self.characters = x,
         }
     }
 }
