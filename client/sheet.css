@@ -27,56 +27,56 @@ input[type=text] {
 	width: 120px;
 }
 
-.note_1 {
+.note_0 {
 	position: absolute;
 	left: 80px;
 	top: 623px;
+	width: 288px;
+}
+
+.note_1 {
+	position: absolute;
+	left: 80px;
+	top: 651px;
 	width: 288px;
 }
 
 .note_2 {
 	position: absolute;
 	left: 80px;
-	top: 651px;
+	top: 679px;
 	width: 288px;
 }
 
 .note_3 {
 	position: absolute;
 	left: 80px;
-	top: 679px;
-	width: 288px;
-}
-
-.note_4 {
-	position: absolute;
-	left: 80px;
 	top: 709px;
 	width: 288px;
 }
 
-.note_5 {
+.note_4 {
 	position: absolute;
 	left: 448px;
 	top: 623px;
 	width: 288px;
 }
 
-.note_6 {
+.note_5 {
 	position: absolute;
 	left: 448px;
 	top: 651px;
 	width: 288px;
 }
 
-.note_7 {
+.note_6 {
 	position: absolute;
 	left: 448px;
 	top: 679px;
 	width: 288px;
 }
 
-.note_8 {
+.note_7 {
 	position: absolute;
 	left: 448px;
 	top: 709px;

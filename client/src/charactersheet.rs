@@ -1,3 +1,4 @@
+use aper::data_structures::ListItem;
 use aper::StateMachine;
 use state::Character;
 use wasm_bindgen::prelude::*;
@@ -92,14 +93,18 @@ impl Component for CharacterSheet {
                          _ => unreachable!()
                      }
                  })/>
-        <input type="text" class="note_1"/>
-        <input type="text" class="note_2"/>
-        <input type="text" class="note_3"/>
-        <input type="text" class="note_4"/>
-        <input type="text" class="note_5"/>
-        <input type="text" class="note_6"/>
-        <input type="text" class="note_7"/>
-        <input type="text" class="note_8"/>
+        {for character.notes.iter().enumerate().map(|(i, ListItem{id, value, ..})|{
+            html!{
+                <input type="text" class=format!("note_{}", i) value=value.value()
+                    onchange=self.props.cb.reform({
+                        let character = character.clone();
+                        move |i: ChangeData| match i {
+                            ChangeData::Value(v) => character.map_notes(move |n| n.map_item(id, |i| i.replace(v))),
+                            _ => unreachable!()
+                        }
+                    })/>
+            }
+        })}
         <input type="text" class="effect_value_1"/>
         <input type="text" class="effect_value_2"/>
         <input type="text" class="effect_value_3"/>
