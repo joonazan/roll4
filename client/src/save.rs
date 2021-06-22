@@ -101,7 +101,7 @@ impl Component for SaveButton {
             } else {
                 html!{}
             }}
-
+            <br/>
             {"Load: "}<input type="file" ref=self.fileselect.clone() onchange=self.link.callback(|_| Load)/>
         </div> }
     }
