@@ -74,63 +74,69 @@ impl Component for CharacterSheet {
     fn view(&self) -> Html {
         let character = &self.props.character;
         html! { <div class="charactersheet">
-        <object ref=self.svg_doc.clone() onload=self.link.callback(|_| SvgLoaded)
-                type="image/svg+xml" data="client/sheet.svg" id="svg"></object>
-        <input type="text" class="name" value=character.name.value()
-                 oninput=self.props.cb.reform({
-                     let character = character.clone();
-                     move |i: InputData| character.map_name(|n| n.replace(i.value))
-                 })/>
-        <input type="text" class="habitat" value=character.habitat.value()
-                 oninput=self.props.cb.reform({
-                     let character = character.clone();
-                     move |i: InputData| character.map_habitat(|n| n.replace(i.value))
-                 })/>
-        <input type="text" class="note_1"/>
-        <input type="text" class="note_2"/>
-        <input type="text" class="note_3"/>
-        <input type="text" class="note_4"/>
-        <input type="text" class="note_5"/>
-        <input type="text" class="note_6"/>
-        <input type="text" class="note_7"/>
-        <input type="text" class="note_8"/>
-        <input type="text" class="effect_value_1"/>
-        <input type="text" class="effect_value_2"/>
-        <input type="text" class="effect_value_3"/>
-        <input type="text" class="effect_value_4"/>
-        <input type="text" class="effect_value_5"/>
-        <input type="text" class="effect_value_6"/>
-        <input type="text" class="effect_value_7"/>
-        <input type="text" class="effect_value_8"/>
-        <input type="text" class="effect_value_9"/>
-        <input type="text" class="effect_value_10"/>
-        <input type="text" class="effect_value_11"/>
-        <input type="text" class="effect_value_12"/>
-        <input type="text" class="effect_value_13"/>
-        <input type="text" class="effect_value_14"/>
-        <input type="text" class="effect_value_15"/>
-        <input type="text" class="effect_value_16"/>
-        <input type="text" class="effect_value_17"/>
-        <input type="text" class="effect_value_18"/>
-        <input type="text" class="effect_name_1"/>
-        <input type="text" class="effect_name_2"/>
-        <input type="text" class="effect_name_3"/>
-        <input type="text" class="effect_name_4"/>
-        <input type="text" class="effect_name_5"/>
-        <input type="text" class="effect_name_6"/>
-        <input type="text" class="effect_name_7"/>
-        <input type="text" class="effect_name_8"/>
-        <input type="text" class="effect_name_9"/>
-        <input type="text" class="effect_name_10"/>
-        <input type="text" class="effect_name_11"/>
-        <input type="text" class="effect_name_12"/>
-        <input type="text" class="effect_name_13"/>
-        <input type="text" class="effect_name_14"/>
-        <input type="text" class="effect_name_15"/>
-        <input type="text" class="effect_name_16"/>
-        <input type="text" class="effect_name_17"/>
-        <input type="text" class="effect_name_18"/>
-        </div> }
+                <object ref=self.svg_doc.clone() onload=self.link.callback(|_| SvgLoaded)
+                        type="image/svg+xml" data="client/sheet.svg" id="svg"></object>
+                <input type="text" class="name" value=character.name.value()
+                         onchange=self.props.cb.reform({
+                             let character = character.clone();
+                             move |i: ChangeData| match i {
+                                 ChangeData::Value(v) => character.map_name(|n| n.replace(v)),
+                                 _ => unreachable!()
+                             }
+                         })/>
+                <input type="text" class="habitat" value=character.habitat.value()
+                         onchange=self.props.cb.reform({
+                             let character = character.clone();
+                             move |i: ChangeData| match i {
+                                 ChangeData::Value(v) => character.map_habitat(|n| n.replace(v)),
+                                 _ => unreachable!()
+                             }
+                         })/>
+                <input type="text" class="note_1"/>
+                <input type="text" class="note_2"/>
+                <input type="text" class="note_3"/>
+                <input type="text" class="note_4"/>
+                <input type="text" class="note_5"/>
+                <input type="text" class="note_6"/>
+                <input type="text" class="note_7"/>
+                <input type="text" class="note_8"/>
+                <input type="text" class="effect_value_1"/>
+                <input type="text" class="effect_value_2"/>
+                <input type="text" class="effect_value_3"/>
+                <input type="text" class="effect_value_4"/>
+                <input type="text" class="effect_value_5"/>
+                <input type="text" class="effect_value_6"/>
+                <input type="text" class="effect_value_7"/>
+                <input type="text" class="effect_value_8"/>
+                <input type="text" class="effect_value_9"/>
+                <input type="text" class="effect_value_10"/>
+                <input type="text" class="effect_value_11"/>
+                <input type="text" class="effect_value_12"/>
+                <input type="text" class="effect_value_13"/>
+                <input type="text" class="effect_value_14"/>
+                <input type="text" class="effect_value_15"/>
+                <input type="text" class="effect_value_16"/>
+                <input type="text" class="effect_value_17"/>
+                <input type="text" class="effect_value_18"/>
+                <input type="text" class="effect_name_1"/>
+                <input type="text" class="effect_name_2"/>
+                <input type="text" class="effect_name_3"/>
+                <input type="text" class="effect_name_4"/>
+                <input type="text" class="effect_name_5"/>
+                <input type="text" class="effect_name_6"/>
+                <input type="text" class="effect_name_7"/>
+                <input type="text" class="effect_name_8"/>
+                <input type="text" class="effect_name_9"/>
+                <input type="text" class="effect_name_10"/>
+                <input type="text" class="effect_name_11"/>
+                <input type="text" class="effect_name_12"/>
+                <input type="text" class="effect_name_13"/>
+                <input type="text" class="effect_name_14"/>
+                <input type="text" class="effect_name_15"/>
+                <input type="text" class="effect_name_16"/>
+                <input type="text" class="effect_name_17"/>
+                <input type="text" class="effect_name_18"/>
+                </div> }
     }
 }
 
