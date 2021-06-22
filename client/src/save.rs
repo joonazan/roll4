@@ -1,8 +1,7 @@
 use aper::data_structures::List;
 use gloo_file::{
     callbacks::{read_as_bytes, FileReader},
-    FileList,
-    Blob,
+    Blob, FileList,
 };
 use js_sys::Date;
 use state::Character;
