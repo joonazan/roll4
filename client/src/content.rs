@@ -78,16 +78,32 @@ impl Component for Content {
                 .reform(move |x: Option<Vec<bool>>| x.map(move |x| GameTransition::Reroll(x, me)))
         });
 
-        let characters = self.state.characters.iter().map(|ListItem{value, id, ..}| {
-            let cb = self.cb.reform(move |t| Some(GameTransition::CharacterTransition(ListOperation::Apply(id, t))));
-            html! { <div>
-                <CharacterSheet character=value cb=cb />
-                {if self.character == None {
-                     html!{<button onclick=self.link.callback(move |_| SelectCharacter(id))>{"This is me!"}</button>}
-                } else {
-                     html!{}}
-                }
-            </div> }
+        let character = if let Some(character) = self
+            .character
+            .and_then(|char_id| {
+                self.state
+                    .characters
+                    .iter()
+                    .find(|ListItem { id, .. }| *id == char_id)
+            })
+            .or(self.state.characters.iter().next())
+        {
+            let id = character.id;
+            let cb = self.cb.reform(move |f| {
+                Some(GameTransition::CharacterTransition(ListOperation::Apply(
+                    id, f,
+                )))
+            });
+            html! {<CharacterSheet character=character.value cb=cb />}
+        } else {
+            html! {}
+        };
+
+        let tabs = self.state.characters.iter().map(|ListItem{value, id, ..}| {
+            let class = if Some(id) == self.character {"selected"} else {""};
+            html! {
+                <span class=class onclick=self.link.callback(move |_| SelectCharacter(id))>{value.name.value()}</span>
+            }
         });
 
         let add_char = GameTransition::CharacterTransition(
@@ -102,12 +118,12 @@ impl Component for Content {
             <DiceComponent roll_id=dice.roll_id rolls=dice.rolls.clone() last_rolled=dice.last_rolled.clone()
              reroll_cb=reroll />
 
-            {for characters}
-            {if self.character == None {
-                html!{<button onclick=self.cb.reform(move |_| Some(add_char.clone()))>{"Add Character"}</button>}
-            } else {
-                html!{}
-            }}
+            <div id="tabs">
+               {for tabs}
+               <span onclick=self.cb.reform(move |_| Some(add_char.clone()))>{"+"}</span>
+            </div>
+            {character}
+
         </>}
     }
 }

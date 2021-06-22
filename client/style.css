@@ -68,3 +68,19 @@
 #savewidget {
     float: right;
 }
+
+#tabs {
+    display: flex;
+}
+#tabs > span {
+    display: inline-block;
+    min-width: 4em;
+    height: 1.2em;
+    margin: 0 2px;
+    background-color: gray;
+}
+
+
+#tabs > span.selected {
+    background-color: lightyellow;
+}
