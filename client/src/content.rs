@@ -109,21 +109,22 @@ impl Component for Content {
         let add_char = GameTransition::CharacterTransition(
             self.state.characters.append(Character::default()).1,
         );
-        html! {<>
+        html! {<div id="main">
+            <div id="characters">
+               <div id="tabs">
+                {for tabs}
+                <span onclick=self.cb.reform(move |_| Some(add_char.clone()))>{"+"}</span>
+               </div>
+               {character}
+            </div>
+
+            <div id="roller">
+               <div>{"Roll: "}{for roll_buttons}</div>
+               <DiceComponent roll_id=dice.roll_id rolls=dice.rolls.clone() last_rolled=dice.last_rolled.clone()
+                 reroll_cb=reroll />
+            </div>
+
             <SaveButton characters=self.state.characters.clone() load=self.cb.reform(|x| Some(GameTransition::Load(x))) />
-
-            <div>
-                {"Roll: "}{for roll_buttons}
-            </div>
-            <DiceComponent roll_id=dice.roll_id rolls=dice.rolls.clone() last_rolled=dice.last_rolled.clone()
-             reroll_cb=reroll />
-
-            <div id="tabs">
-               {for tabs}
-               <span onclick=self.cb.reform(move |_| Some(add_char.clone()))>{"+"}</span>
-            </div>
-            {character}
-
-        </>}
+        </div>}
     }
 }

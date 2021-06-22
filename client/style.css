@@ -65,10 +65,6 @@
     width: 20em;
 }
 
-#savewidget {
-    float: right;
-}
-
 #tabs {
     display: flex;
 }
@@ -79,8 +75,26 @@
     margin: 0 2px;
     background-color: gray;
 }
-
-
 #tabs > span.selected {
     background-color: lightyellow;
+}
+
+#main {
+    display: grid;
+    grid-template-areas:
+        "roller char"
+        ". char"
+        "save char";
+}
+
+#characters {
+    grid-area: char;
+}
+
+#roller {
+    grid-area: roller;
+}
+
+#savewidget {
+    grid-area: save;
 }
