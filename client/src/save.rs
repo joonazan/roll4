@@ -2,11 +2,11 @@ use aper::data_structures::List;
 use gloo_file::{
     callbacks::{read_as_bytes, FileReader},
     FileList,
+    Blob,
 };
-use js_sys::{Array, Date};
+use js_sys::Date;
 use state::Character;
-use wasm_bindgen::prelude::*;
-use web_sys::{Blob, HtmlInputElement, Url};
+use web_sys::{HtmlInputElement, Url};
 use yew::prelude::*;
 
 pub struct SaveButton {
@@ -56,12 +56,7 @@ impl Component for SaveButton {
                     Url::revoke_object_url(object_url).unwrap();
                 }
 
-                let arr = Array::new();
-                arr.set(
-                    0,
-                    JsValue::from_str(&serde_json::to_string(&self.props.characters).unwrap()),
-                );
-                let blob = Blob::new_with_str_sequence(&arr).unwrap();
+                let blob = Blob::new(&*serde_json::to_string(&self.props.characters).unwrap());
 
                 let date = Date::new_0();
                 let day: String = date.to_date_string().into();
@@ -69,7 +64,7 @@ impl Component for SaveButton {
 
                 self.save = Some(Save {
                     name,
-                    object_url: Url::create_object_url_with_blob(&blob).unwrap(),
+                    object_url: Url::create_object_url_with_blob(&blob.into()).unwrap(),
                 });
                 true
             }
