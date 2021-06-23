@@ -22,6 +22,8 @@ pub enum Message {
     SvgLoaded,
     InfluenceClicked(u8),
     MemoryClicked(u8),
+    BodyClicked(u8),
+    MindClicked(u8),
 }
 use Message::*;
 
@@ -58,6 +60,14 @@ impl Component for CharacterSheet {
                     }),
                 );
             }
+            BodyClicked(x) => self
+                .props
+                .cb
+                .emit(self.props.character.map_body(|b| b.replace(x))),
+            MindClicked(x) => self
+                .props
+                .cb
+                .emit(self.props.character.map_mind(|m| m.replace(x))),
         }
         false
     }
@@ -161,13 +171,10 @@ impl CharacterSheet {
 
         for i in 1..=3 {
             {
-                let character = self.props.character.clone();
-                let cb = self.props.cb.clone();
-                let c =
-                    Closure::wrap(
-                        Box::new(move || cb.emit(character.map_body(|b| b.replace(i))))
-                            as Box<dyn Fn()>,
-                    );
+                let link = self.link.clone();
+                let c = Closure::wrap(
+                    Box::new(move || link.send_message(BodyClicked(i))) as Box<dyn Fn()>
+                );
                 get_body(&doc, i)
                     .unchecked_into::<SvgElement>()
                     .set_onclick(Some(c.as_ref().unchecked_ref()));
@@ -176,13 +183,10 @@ impl CharacterSheet {
                 c.forget();
             }
             {
-                let character = self.props.character.clone();
-                let cb = self.props.cb.clone();
-                let c =
-                    Closure::wrap(
-                        Box::new(move || cb.emit(character.map_mind(|b| b.replace(i))))
-                            as Box<dyn Fn()>,
-                    );
+                let link = self.link.clone();
+                let c = Closure::wrap(
+                    Box::new(move || link.send_message(MindClicked(i))) as Box<dyn Fn()>
+                );
                 get_mind(&doc, i)
                     .unchecked_into::<SvgElement>()
                     .set_onclick(Some(c.as_ref().unchecked_ref()));
