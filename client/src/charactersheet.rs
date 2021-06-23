@@ -105,42 +105,12 @@ impl Component for CharacterSheet {
                     })/>
             }
         })}
-        <input type="text" class="effect_value_1"/>
-        <input type="text" class="effect_value_2"/>
-        <input type="text" class="effect_value_3"/>
-        <input type="text" class="effect_value_4"/>
-        <input type="text" class="effect_value_5"/>
-        <input type="text" class="effect_value_6"/>
-        <input type="text" class="effect_value_7"/>
-        <input type="text" class="effect_value_8"/>
-        <input type="text" class="effect_value_9"/>
-        <input type="text" class="effect_value_10"/>
-        <input type="text" class="effect_value_11"/>
-        <input type="text" class="effect_value_12"/>
-        <input type="text" class="effect_value_13"/>
-        <input type="text" class="effect_value_14"/>
-        <input type="text" class="effect_value_15"/>
-        <input type="text" class="effect_value_16"/>
-        <input type="text" class="effect_value_17"/>
-        <input type="text" class="effect_value_18"/>
-        <input type="text" class="effect_name_1"/>
-        <input type="text" class="effect_name_2"/>
-        <input type="text" class="effect_name_3"/>
-        <input type="text" class="effect_name_4"/>
-        <input type="text" class="effect_name_5"/>
-        <input type="text" class="effect_name_6"/>
-        <input type="text" class="effect_name_7"/>
-        <input type="text" class="effect_name_8"/>
-        <input type="text" class="effect_name_9"/>
-        <input type="text" class="effect_name_10"/>
-        <input type="text" class="effect_name_11"/>
-        <input type="text" class="effect_name_12"/>
-        <input type="text" class="effect_name_13"/>
-        <input type="text" class="effect_name_14"/>
-        <input type="text" class="effect_name_15"/>
-        <input type="text" class="effect_name_16"/>
-        <input type="text" class="effect_name_17"/>
-        <input type="text" class="effect_name_18"/>
+        {for (0..18).map(|i| {
+            html!{<>
+                <input type="text" class=format!("effect_value_{}", i)/>
+                <input type="text" class=format!("effect_name_{}", i)/>
+            </>}
+        })}
         </div> }
     }
 }
