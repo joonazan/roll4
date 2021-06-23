@@ -16,6 +16,7 @@ pub struct Content {
 
 pub enum ContentMsg {
     SelectCharacter(Uuid),
+    AddCharacter,
 }
 use ContentMsg::*;
 
@@ -42,6 +43,11 @@ impl Component for Content {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             SelectCharacter(id) => self.character = Some(id),
+            AddCharacter => {
+                let (id, t) = self.state.characters.append(Character::default());
+                self.character = Some(id);
+                self.cb.emit(Some(GameTransition::CharacterTransition(t)));
+            }
         }
         true
     }
@@ -78,16 +84,17 @@ impl Component for Content {
                 .reform(move |x: Option<Vec<bool>>| x.map(move |x| GameTransition::Reroll(x, me)))
         });
 
-        let character = if let Some(character) = self
-            .character
-            .and_then(|char_id| {
-                self.state
-                    .characters
-                    .iter()
-                    .find(|ListItem { id, .. }| *id == char_id)
-            })
-            .or(self.state.characters.iter().next())
-        {
+        let character = self.character.and_then(|char_id| {
+            self.state
+                .characters
+                .iter()
+                .find(|ListItem { id, .. }| *id == char_id)
+        });
+        let add_char_button = match &character {
+            None => html! {<span onclick=self.link.callback(|_| AddCharacter)>{"+"}</span>},
+            _ => html! {},
+        };
+        let character_sheet = if let Some(character) = character {
             let id = character.id;
             let cb = self.cb.reform(move |f| {
                 Some(GameTransition::CharacterTransition(ListOperation::Apply(
@@ -106,16 +113,13 @@ impl Component for Content {
             }
         });
 
-        let add_char = GameTransition::CharacterTransition(
-            self.state.characters.append(Character::default()).1,
-        );
         html! {<div id="main">
             <div id="characters">
                <div id="tabs">
-                {for tabs}
-                <span onclick=self.cb.reform(move |_| Some(add_char.clone()))>{"+"}</span>
+               {for tabs}
+               {add_char_button}
                </div>
-               {character}
+               {character_sheet}
             </div>
 
             <div id="roller">
