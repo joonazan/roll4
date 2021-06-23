@@ -26,7 +26,7 @@ impl Default for Character {
             body: Atom::new(3),
             mind: Atom::new(3),
             memory_points: Atom::new(0),
-            influence_points: Atom::new(3),
+            influence_points: Atom::new(1),
             preferred_gravity: Atom::new(5),
             notes,
         }
